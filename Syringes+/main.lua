@@ -38,14 +38,10 @@ SyringesPlus:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, SyringesPlus.onPlayer
 -- Update passive effects
 function SyringesPlus:onUpdate(player)
     if game:GetFrameCount() == 1 then
-        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.USED_NEEDLE, Vector(320, 300), Vector (0, 0), nil)
-        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.MORPHINE, Vector(270, 300), Vector (0, 0), nil)
-        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.BOOSTER_SHOT, Vector(370, 300), Vector (0, 0), nil)
-        --if player:GetName() == "Isaac" then
-           --player:AddCollectible(SyringeId.USED_NEEDLE, 0, true) 
-        --end
+        --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.USED_NEEDLE, Vector(320, 300), Vector (0, 0), nil)
+        --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.MORPHINE, Vector(270, 300), Vector (0, 0), nil)
+        --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.BOOSTER_SHOT, Vector(370, 300), Vector (0, 0), nil)
     end
-    UpdateSyringes(player)
 end
 
 SyringesPlus:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, SyringesPlus.onUpdate)
@@ -53,22 +49,22 @@ SyringesPlus:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, SyringesPlus.onUpd
 -- Update cache
 function SyringesPlus:onCache(player, cacheFlag)
     if cacheFlag == CacheFlag.CACHE_DAMAGE then
-       if player:HasCollectible(SyringeId.USED_NEEDLE) and not HasSyringe.USED_NEEDLE then
+       if player:HasCollectible(SyringeId.USED_NEEDLE) then
            if player.MaxFireDelay >= MIN_FIRE_DELAY + SyringeBonus.USED_NEEDLE then
                 player.MaxFireDelay = player.MaxFireDelay - SyringeBonus.USED_NEEDLE 
             elseif player.MaxFireDelay >= MIN_FIRE_DELAY then
                 player.MaxFireDelay = MIN_FIRE_DELAY
             end
         end
-        if player:HasCollectible(SyringeId.BOOSTER_SHOT) and not HasSyringe.BOOSTER_SHOT then
+        if player:HasCollectible(SyringeId.BOOSTER_SHOT) then
            player.Damage = player.Damage + SyringeBonus.BOOSTER_SHOT_DMG
         end
     end
     if cacheFlag == CacheFlag.CACHE_SPEED then
-       if player:HasCollectible(SyringeId.BOOSTER_SHOT) and not HasSyringe.BOOSTER_SHOT then
+       if player:HasCollectible(SyringeId.BOOSTER_SHOT) then
            player.MoveSpeed = player.MoveSpeed + SyringeBonus.BOOSTER_SHOT_SP 
         end
-        if player:HasCollectible(SyringeId.MORPHINE) and not HasSyringe.MORPHINE then
+        if player:HasCollectible(SyringeId.MORPHINE) then
            player.MoveSpeed = player.MoveSpeed - SyringeBonus.MORPHINE 
         end
     end
