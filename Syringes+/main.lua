@@ -29,6 +29,21 @@ local SyringeBonus = {
     LETHAL_INJECTION_FD = 0.2,
 }
 
+-- Pills
+local SleepingPill = {
+    ID = Isaac.GetPillEffectByName("Sleeping Pill"),
+    BONUS_SP = 0.08,
+    IsSleepy = false
+}
+local IveBeenBad = {
+    ID = Isaac.GetPillEffectByName("I've Been Bad"),
+    BONUS_SP = 0.08,
+    IsBad = false
+}
+
+SleepingPill.Color = Isaac.AddPillEffectToPool(SleepingPill.ID)
+SleepingPill.Color = Isaac.AddPillEffectToPool(IveBeenBad.ID)
+
 -- Validate inventory
 local function UpdateSyringe(player)
    HasSyringe.Used_Needle = player:HasCollectible(SyringeId.USED_NEEDLE)
@@ -41,7 +56,7 @@ end
 
 --When the run starts or is continued
 function SyringesPlus:onPlayerInit(player)
-    UpdateSyringes(player)
+    UpdateSyringe(player) 
 end
 
 SyringesPlus:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, SyringesPlus.onPlayerInit)
@@ -55,6 +70,9 @@ function SyringesPlus:onUpdate(player)
         Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.ALLERGY_SHOT, Vector(420, 300), Vector (0, 0), nil)
         Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.LETHAL_INJECTION, Vector(220, 300), Vector (0, 0), nil)
     end
+    
+    UpdateSyringe(player)
+    
 end
 
 SyringesPlus:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, SyringesPlus.onUpdate)
@@ -83,6 +101,16 @@ function SyringesPlus:onCache(player, cacheFlag)
         if player:HasCollectible(SyringeId.MORPHINE) then
            player.MoveSpeed = player.MoveSpeed - SyringeBonus.MORPHINE 
         end
+        if SleepingPill.IsSleepy then
+           --player.MoveSpeed = player.MoveSpeed - SleepingPill.BONUS_SP 
+           player:AddSoulHearts(2)
+           SleepingPill.IsSleepy = false
+        end
+        if IveBeenBad.IsBad then
+           --player.MoveSpeed = player.MoveSpeed - SleepingPill.BONUS_SP 
+           player:AddBlackHearts(2)
+           IveBeenBad.IsBad = false
+        end
     end
     if cacheFlag == CacheFlag.CACHE_SHOTSPEED then
        if player:HasCollectible(SyringeId.ALLERGY_SHOT) then
@@ -105,3 +133,22 @@ function SyringesPlus:onCache(player, cacheFlag)
 end
 
 SyringesPlus:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, SyringesPlus.onCache)
+
+-- Pills Proc
+function SleepingPill:Proc(_PillEffect)
+    local player = game:GetPlayer(0)
+    SleepingPill.Room = game:GetLevel():GetCurrentRoomIndex()
+    SleepingPill.IsSleepy = true
+    player:AddCacheFlags(CacheFlag.CACHE_SPEED)
+end
+
+SyringesPlus:AddCallback(ModCallbacks.MC_USE_PILL, SleepingPill.Proc, SleepingPill.ID)
+
+function IveBeenBad:Proc(_PillEffect)
+    local player = game:GetPlayer(0)
+    IveBeenBad.Room = game:GetLevel():GetCurrentRoomIndex()
+    IveBeenBad.IsBad = true
+    player:AddCacheFlags(CacheFlag.CACHE_SPEED)
+end
+
+SyringesPlus:AddCallback(ModCallbacks.MC_USE_PILL, IveBeenBad.Proc, IveBeenBad.ID)
