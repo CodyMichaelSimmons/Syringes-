@@ -1,7 +1,13 @@
 <ItemPools>
+    <!-- Treasure Room Item Pool !-->
     <Pool Name="treasure">
         <Item Name="Used Needle" Weight="1" DecreaseBy="0.5" RemoveOn="0.1" />
         <Item Name="Morphine" Weight="1" DecreaseBy="0.5" RemoveOn="0.1" />
         <Item Name="Booster Shot" Weight="1" DecreaseBy="0.5" RemoveOn="0.1" />
+        <Item Name="Allergy Shot" Weight="1" DecreaseBy="0.5" RemoveOn="0.1" />
+    </Pool>
+    <!-- Devil Deal Item Pool !-->
+    <Pool Name="devil">
+        <Item Name="Lethal Injection" Weight="1" DecreaseBy="0.5" RemoveOn="0.1" />
     </Pool>
 </ItemPools>

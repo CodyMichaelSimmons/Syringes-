@@ -1,8 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-	<name>Syringes+</name>
-	<directory>syringes+</directory>
-	<description/>
-	<version>1.0</version>
-	<visibility/>
+    <name>Syringes+</name>
+    <directory>syringes+</directory>
+    <id>889189319</id>
+    <description>The Syringes+ Mod adds a variety of different Syringe based items to the item pool. Future updates will add more items, pills, and a new character.</description>
+    <version>1.3</version>
+    <visibility>Public</visibility>
+    <tag id="Items"/>
+    <tag id="Graphics"/>
 </metadata>
-
