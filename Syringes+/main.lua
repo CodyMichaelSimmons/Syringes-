@@ -7,6 +7,7 @@ local SyringeId = {
     MORPHINE = Isaac.GetItemIdByName("Morphine"),
     BOOSTER_SHOT = Isaac.GetItemIdByName("Booster Shot"),
     ALLERGY_SHOT = Isaac.GetItemIdByName("Allergy Shot"),
+    LUCKY_JUICE = Isaac.GetItemIdByName("Lucky Juice"),
     LETHAL_INJECTION = Isaac.GetItemIdByName("Lethal Injection")
 }
 
@@ -15,6 +16,7 @@ local HasSyringe = {
     Morphine = false,
     Booster_Shot = false,
     Allergy_Shot = false,
+    Lucky_Juice = false,
     Lethal_Injection = false
 }
 
@@ -25,6 +27,7 @@ local SyringeBonus = {
     BOOSTER_SHOT_DMG = 0.28,
     ALLERGY_SHOT_SS = 0.3,
     ALLERGY_SHOT_FD = 0.5,
+    LUCKY_JUICE = 3,
     LETHAL_INJECTION_DMG = 1.5,
     LETHAL_INJECTION_FD = 0.2,
 }
@@ -49,7 +52,8 @@ local function UpdateSyringe(player)
    HasSyringe.Used_Needle = player:HasCollectible(SyringeId.USED_NEEDLE)
    HasSyringe.Morphine = player:HasCollectible(SyringeId.MORPHINE) 
    HasSyringe.Booster_Shot = player:HasCollectible(SyringeId.BOOSTER_SHOT) 
-   HasSyringe.Allergy_Shot = player:HasCollectible(SyringeId.ALLERGY_SHOT) 
+   HasSyringe.Allergy_Shot = player:HasCollectible(SyringeId.ALLERGY_SHOT)
+   HasSyringe.Lucky_Juice = player:HasCollectible(SyringeId.LUCKY_JUICE) 
    HasSyringe.Lethal_Injection = player:HasCollectible(SyringeId.LETHAL_INJECTION) 
 
 end
@@ -64,11 +68,12 @@ SyringesPlus:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, SyringesPlus.onPlayer
 -- Update passive effects, used for testing
 function SyringesPlus:onUpdate(player)
     if game:GetFrameCount() == 1 then
-        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.USED_NEEDLE, Vector(320, 300), Vector (0, 0), nil)
-        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.MORPHINE, Vector(270, 300), Vector (0, 0), nil)
-        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.BOOSTER_SHOT, Vector(370, 300), Vector (0, 0), nil)
-        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.ALLERGY_SHOT, Vector(420, 300), Vector (0, 0), nil)
-        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.LETHAL_INJECTION, Vector(220, 300), Vector (0, 0), nil)
+        --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.USED_NEEDLE, Vector(320, 300), Vector (0, 0), nil)
+        --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.MORPHINE, Vector(270, 300), Vector (0, 0), nil)
+        --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.BOOSTER_SHOT, Vector(370, 300), Vector (0, 0), nil)
+        --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.ALLERGY_SHOT, Vector(420, 300), Vector (0, 0), nil)
+        --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.LETHAL_INJECTION, Vector(220, 300), Vector (0, 0), nil)
+        --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.LUCKY_JUICE, Vector(320, 280), Vector (0, 0), nil)
     end
     
     UpdateSyringe(player)
@@ -110,6 +115,11 @@ function SyringesPlus:onCache(player, cacheFlag)
            --player.MoveSpeed = player.MoveSpeed - SleepingPill.BONUS_SP 
            player:AddBlackHearts(2)
            IveBeenBad.IsBad = false
+        end
+    end
+    if cacheFlag == CacheFlag.CACHE_LUCK then
+       if player:HasCollectible(SyringeId.LUCKY_JUICE) then
+           player.Luck = player.Luck + SyringeBonus.LUCKY_JUICE 
         end
     end
     if cacheFlag == CacheFlag.CACHE_SHOTSPEED then
