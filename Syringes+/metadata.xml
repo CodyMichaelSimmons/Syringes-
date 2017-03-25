@@ -12,13 +12,16 @@ Passives:
 - Morphine (Reduces Speed, Gives 2 Spirit Hearts)
 - Booster Shot (Increases Speed, Increases Damage)
 - Allergy Shot (Increases Shot Speed, Reduces Fire Delay)
+- Lucky Juice (Increases Luck)
 - Lethal Injection (Increases Damage, Reduces Fire Delay, Makes Tears Red)
 
 Pills:
 - Sleeping Pill (Adds a SpiritHeart)
 - I've Been Bad (Adds a Black Heart)</description>
-    <version>1.4</version>
+    <version>1.7</version>
     <visibility>Public</visibility>
+    <tag id="Lua"/>
     <tag id="Items"/>
+    <tag id="Pills"/>
     <tag id="Graphics"/>
 </metadata>
