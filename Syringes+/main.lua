@@ -65,18 +65,27 @@ end
 
 SyringesPlus:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, SyringesPlus.onPlayerInit)
 
--- Update passive effects, used for testing
+-- Update passive effects, comments used for testing
 function SyringesPlus:onUpdate(player)
     if game:GetFrameCount() == 1 then
         --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.USED_NEEDLE, Vector(320, 300), Vector (0, 0), nil)
         --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.MORPHINE, Vector(270, 300), Vector (0, 0), nil)
         --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.BOOSTER_SHOT, Vector(370, 300), Vector (0, 0), nil)
-        --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.ALLERGY_SHOT, Vector(420, 300), Vector (0, 0), nil)
-        --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.LETHAL_INJECTION, Vector(220, 300), Vector (0, 0), nil)
-        --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.LUCKY_JUICE, Vector(320, 280), Vector (0, 0), nil)
+        --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.ALLERGY_SHOT, Vector(320, 250), Vector (0, 0), nil)
+        --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.LETHAL_INJECTION, Vector(270, 250), Vector (0, 0), nil)
+        --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.LUCKY_JUICE, Vector(370, 250), Vector (0, 0), nil)
     end
     
     UpdateSyringe(player)
+    -- Used Needle Poison Effect
+    local player = game:GetPlayer(0)
+    if player:HasCollectible(SyringeId.USED_NEEDLE) then
+       for i, entity in pairs(Isaac.GetRoomEntities()) do 
+           if entity:IsVulnerableEnemy() and math.random(1000) == 2 then
+                entity:AddPoison(EntityRef(player), 75, 0.1)
+            end
+        end
+    end
     
 end
 
@@ -111,8 +120,7 @@ function SyringesPlus:onCache(player, cacheFlag)
            player:AddSoulHearts(2)
            SleepingPill.IsSleepy = false
         end
-        if IveBeenBad.IsBad then
-           --player.MoveSpeed = player.MoveSpeed - SleepingPill.BONUS_SP 
+        if IveBeenBad.IsBad then 
            player:AddBlackHearts(2)
            IveBeenBad.IsBad = false
         end
@@ -138,6 +146,7 @@ function SyringesPlus:onCache(player, cacheFlag)
     if cacheFlag == CacheFlag.CACHE_TEARCOLOR then
        if player:HasCollectible(SyringeId.LETHAL_INJECTION) then
            player.TearColor = Color(0.909, 0.172, 0.172, 1.0, 0.0, 0.0, 0.0)
+            player:SetColor(Color(1.0, 0.560, 0.560, 1.0, 0.0, 0.0 ,0.0), 0, 0, false, false)
         end
     end
 end
