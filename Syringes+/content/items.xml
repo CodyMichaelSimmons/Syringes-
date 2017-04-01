@@ -6,5 +6,5 @@
     <passive cache="luck" name="Lucky Juice" description="Lucky it's clean" gfx ="luckyjuice.png" />
     <passive cache="damage firedelay tearcolor" name="Lethal Injection" description="Lethal in more ways than one" gfx="lethalinjection.png" devilprice ="1" />
     
-    <!-- <active name="Little Helper" description="Found in dads nightstand" gfx="littlehelper.png" maxcharges="4" /> -->
+    <active name="Little Helper" description="Found in dads nightstand" gfx="littlehelper.png" maxcharges="4" />
 </items>
