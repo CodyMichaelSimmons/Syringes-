@@ -15,13 +15,17 @@ Passives:
 - Lucky Juice (Increases Luck)
 - Lethal Injection (Increases Damage, Reduces Fire Delay, Makes Tears Red)
 
+Actives:
+- Little Helper (Random Stat Increase For One Room)
+
 Pills:
 - Sleeping Pill (Adds a SpiritHeart)
 - I've Been Bad (Adds a Black Heart)</description>
-    <version>1.7</version>
+    <version>1.8</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Items"/>
+    <tag id="Active Items"/>
     <tag id="Pills"/>
     <tag id="Graphics"/>
 </metadata>
