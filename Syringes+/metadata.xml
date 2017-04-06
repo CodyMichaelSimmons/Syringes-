@@ -21,7 +21,7 @@ Actives:
 Pills:
 - Sleeping Pill (Adds a SpiritHeart)
 - I've Been Bad (Adds a Black Heart)</description>
-    <version>1.8</version>
+    <version>1.7</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Items"/>
