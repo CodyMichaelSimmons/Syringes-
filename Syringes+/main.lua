@@ -12,6 +12,9 @@ local SyringeId = {
 }
 
 SyringesPlus.COLLECTIBLE_LITTLE_HELPER = Isaac.GetItemIdByName("Little Helper")
+SyringesPlus.COSTUME_BOOSTER_SHOT = Isaac.GetCostumeIdByPath("gfx/characters/boostershot.anm2")
+SyringesPlus.COSTUME_LETHAL_INJECTION = Isaac.GetCostumeIdByPath("gfx/characters/lethalinjection.anm2")
+SyringesPlus.COSTUME_MORPHINE = Isaac.GetCostumeIdByPath("gfx/characters/morphine_SP.anm2")
 
 -- Little Helper
 local LH = {
@@ -29,6 +32,12 @@ local HasSyringe = {
     Allergy_Shot = false,
     Lucky_Juice = false,
     Lethal_Injection = false,
+}
+
+local UseCostume = {
+    BSC = false,
+    LIC = false,
+    MoC = false
 }
 
 local SyringeBonus = {
@@ -87,7 +96,7 @@ function SyringesPlus:onUpdate(player)
         --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.ALLERGY_SHOT, Vector(320, 250), Vector (0, 0), nil)
         --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.LETHAL_INJECTION, Vector(270, 250), Vector (0, 0), nil)
         --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringeId.LUCKY_JUICE, Vector(370, 250), Vector (0, 0), nil)
-        --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringesPlus.COLLECTIBLE_LITTLE_HELPER, Vector(320, 300), Vector(0,0), nil)
+        --Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, SyringesPlus.COLLECTIBLE_LITTLE_HELPER, Vector(320, 200), Vector(0,0), nil)
     end
     
     UpdateSyringe(player)
@@ -111,6 +120,20 @@ function SyringesPlus:onUpdate(player)
         player:EvaluateItems()
         LH.Room = nil
     end 
+    
+    if HasSyringe.Booster_Shot and BSC ~= true then
+        player:AddNullCostume(SyringesPlus.COSTUME_BOOSTER_SHOT)
+        BSC = true
+    end
+    if HasSyringe.Lethal_Injection and LIC ~= true then
+        player:AddNullCostume(SyringesPlus.COSTUME_LETHAL_INJECTION)
+        LIC = true
+    end
+    if HasSyringe.Morphine and MoC ~= true then
+        player:AddNullCostume(SyringesPlus.COSTUME_MORPHINE)
+        MoC = true
+    end
+    
 end
 
 function SyringesPlus:ActivateLittleHelper(_Type, RNG)
@@ -236,7 +259,6 @@ function IveBeenBad:Proc(_PillEffect)
     IveBeenBad.IsBad = true
     player:AddCacheFlags(CacheFlag.CACHE_SPEED)
 end
-
 
 SyringesPlus:AddCallback(ModCallbacks.MC_USE_PILL, IveBeenBad.Proc, IveBeenBad.ID)
 SyringesPlus:AddCallback(ModCallbacks.MC_USE_ITEM, SyringesPlus.ActivateLittleHelper, SyringesPlus.COLLECTIBLE_LITTLE_HELPER)
