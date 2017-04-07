@@ -1,0 +1,5 @@
+<costumes anm2root="gfx/characters/">
+    <costume anm2path="boostershot.anm2" priority="100" type="none" />
+    <costume anm2path="lethalinjection.anm2" priority="100" type="none" />
+    <costume anm2path="morphine_SP.anm2" priority="100" type="none" />
+</costumes>
